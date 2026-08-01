@@ -1,0 +1,11 @@
+Acme Corporation is planning a cloud migration.
+
+Sarah Johnson, CTO, confirmed the infrastructure budget has been approved.
+
+The company plans to modernize its DevOps platform.
+
+Procurement timeline has not yet been finalized.
+
+Security review will happen next month.
+
+The engineering team is expanding by 15 new hires.

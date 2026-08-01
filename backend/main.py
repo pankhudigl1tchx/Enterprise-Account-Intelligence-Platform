@@ -1,3 +1,4 @@
+from routes.pipeline import router as pipeline_router
 from engine.cache import (
     cache_exists,
     generate_cache_key,
@@ -7,7 +8,7 @@ from engine.cache import (
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from engine.schemas import *
-
+from routes.parser import router as parser_router
 from config import (
     APP_VERSION,
     MODEL,
@@ -28,6 +29,8 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+app.include_router(parser_router)
+app.include_router(pipeline_router)
 
 
 @app.get("/")
@@ -50,6 +53,15 @@ def health():
     return {
         "status": "healthy",
         "backend": "online",
+    }
+
+from config import GEMINI_API_KEY
+
+@app.get("/config/test")
+def config_test():
+    return {
+        "api_key_loaded": GEMINI_API_KEY != "",
+        "model": MODEL,
     }
 
 @app.post("/cache/test")
@@ -83,6 +95,8 @@ def schema_test():
 
     sample = FactExtraction(
 
+        company_name="Acme Corporation",
+
         company_summary=ExtractedField(
             value="Acme Corporation is modernizing infrastructure.",
             confidence=ConfidenceLevel.HIGH,
@@ -94,12 +108,7 @@ def schema_test():
 
         budget_status=BudgetStatus.APPROVED,
 
-        buying_signals=[],
-
-        missing_information=[
-            "Procurement Timeline",
-            "Security Review Date",
-        ],
+        decision_maker="Sarah Johnson",
 
         stakeholders=[
             Stakeholder(
@@ -107,6 +116,17 @@ def schema_test():
                 role="CTO",
                 influence="High",
             )
+        ],
+
+        buying_signals=[],
+
+        pain_points=[],
+
+        risk_factors=[],
+
+        missing_information=[
+            "Procurement Timeline",
+            "Security Review Date",
         ],
     )
 

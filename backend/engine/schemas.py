@@ -35,12 +35,20 @@ class ExtractedField(BaseModel):
 
 class FactExtraction(BaseModel):
 
+    company_name: str
+
     company_summary: ExtractedField
 
     budget_status: BudgetStatus
 
-    buying_signals: list[ExtractedField] = Field(default_factory=list)
-
-    missing_information: list[str] = Field(default_factory=list)
+    decision_maker: str
 
     stakeholders: list[Stakeholder] = Field(default_factory=list)
+
+    buying_signals: list[ExtractedField] = Field(default_factory=list)
+
+    pain_points: list[str] = Field(default_factory=list)
+
+    risk_factors: list[str] = Field(default_factory=list)
+
+    missing_information: list[str] = Field(default_factory=list)

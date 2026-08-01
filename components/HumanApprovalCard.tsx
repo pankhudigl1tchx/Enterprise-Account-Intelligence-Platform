@@ -1,17 +1,19 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { CheckCircle2, Download, ChevronDown, ChevronUp } from 'lucide-react';
+import { CheckCircle2, Download, ChevronDown, ChevronUp, AlertTriangle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 interface HumanApprovalCardProps {
   approved: boolean;
   onApprovedChange: (approved: boolean) => void;
+  missingInformation?: string[];
 }
 
 export default function HumanApprovalCard({
   approved,
   onApprovedChange,
+  missingInformation = [],
 }: HumanApprovalCardProps) {
   const [currentTime, setCurrentTime] = useState('');
   const [expandedMetadata, setExpandedMetadata] = useState(false);
@@ -49,6 +51,17 @@ export default function HumanApprovalCard({
   return (
     <div className="rounded-lg border border-border bg-card p-6 space-y-4">
       <h2 className="text-lg font-semibold">Final Approval</h2>
+
+      {/* Warning if missing info still exists */}
+      {missingInformation.length > 0 && (
+        <div className="flex items-start gap-2 p-3 rounded-lg bg-yellow-500/10 border border-yellow-500/30 text-xs text-yellow-300">
+          <AlertTriangle className="w-4 h-4 mt-0.5 shrink-0" />
+          <span>
+            {missingInformation.length} item{missingInformation.length > 1 ? 's' : ''} still
+            missing ({missingInformation.join(', ')}). Review before approving.
+          </span>
+        </div>
+      )}
 
       {/* Approval Checkbox */}
       <div className="flex items-center gap-3 p-4 rounded-lg bg-slate-800/30 border border-border/50">

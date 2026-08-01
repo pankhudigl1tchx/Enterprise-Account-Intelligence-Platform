@@ -1,3 +1,5 @@
+'use client';
+
 import { PlayCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
@@ -22,7 +24,12 @@ const demos = [
   { value: 'discovery-call', label: 'Discovery Call (Missing Info)' },
 ];
 
-export default function ControlBar({ selectedDemo, onDemoChange, onRunPipeline, currentRun }: ControlBarProps) {
+export default function ControlBar({
+  selectedDemo,
+  onDemoChange,
+  onRunPipeline,
+  currentRun,
+}: ControlBarProps) {
   return (
     <div className="space-y-6">
       {/* Demo Selector and Run Button */}
@@ -68,8 +75,13 @@ export default function ControlBar({ selectedDemo, onDemoChange, onRunPipeline, 
       </div>
 
       {/* Run Counter */}
+      {/* Run Counter */}
       <div className="text-sm text-muted-foreground">
-        Pipeline runs: <span className="font-semibold text-primary">{currentRun}</span>
+        {currentRun > 0 ? (
+          <>Pipeline Run #{currentRun} · Last updated {new Date().toLocaleTimeString()}</>
+        ) : (
+          <>No runs yet</>
+        )}
       </div>
     </div>
   );
